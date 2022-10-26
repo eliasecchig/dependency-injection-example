@@ -3,7 +3,7 @@ from kfp.v2.components.component_factory import create_component_from_func
 
 
 def create_component_from_func_with_files(
-    files_to_be_included, component_from_func_options, component_args
+    files_to_be_included: list, component_from_func_options: dict, component_args: dict
 ):
     """
     This function creates and initialize a component in KFP, by adding to it's context a list of files
@@ -15,9 +15,9 @@ def create_component_from_func_with_files(
      4) place the bash command that will create the files inside the command which echoes the function code.
      This way here, before the component runs, the files required by the component will be saved in disk and they will
      be available at runtime
-    :param files_to_be_included: list of absolute paths of the files to be imported
-    :param component_from_func_options: any argument that needs to be passed to the create_component_from_func in kfp.
-    :param component_args: any argument that needs to be passed to the component itself.
+    :param files_to_be_included: list of relative paths of the files to be imported
+    :param component_from_func_options: dictionary containing any argument that needs to be passed to the create_component_from_func in kfp.
+    :param component_args: dictionary containing any argument that needs to be passed to the component itself.
     :return: a component initialized with the parameters
     """
     component = create_component_from_func(**component_from_func_options)
