@@ -10,7 +10,7 @@ def hello_world(text: str) -> str:
 def example_hello_world_op(**kwargs):
     task = create_component_from_func_with_files(
         files_to_be_included=['my_model/dummy_model.py'],
-        component_from_func_options={
+        component_from_func_args={
             "func": hello_world,
             "base_image": "python:3.7"
         },
