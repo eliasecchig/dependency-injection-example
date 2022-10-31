@@ -2,7 +2,7 @@
 
 This repo aims to showcase an utility tool function that is able to create components with files included in it. 
 
-<b>The utility tool code can be found in [utils_create_component_with_files.py](utils_create_component_with_files.py)</b>
+<b>The utility tool code can be found in [utils_create_component_with_files.py](mlops_package_example/utils/create_component_with_files.py)</b>
 
 ### Why this is important? 
 KFP and VAI pipelines users, have currently 2 ways to create components:
