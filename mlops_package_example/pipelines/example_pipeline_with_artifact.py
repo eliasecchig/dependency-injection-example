@@ -8,7 +8,7 @@ def pipeline_hello_world_with_artifact(model_module_path: str, text: str = 'hi t
     """Dummy pipeline to showcase the creation of a component which includes external file with artifact"""
 
     # file_name hardcoded here, in real life this would be dynamically imported by the model_module_path
-    model_file = register_asset_op(file_name='my_model/dummy_model.py').outputs["artifact_output"]
+    model_file = register_asset_op(file_name='my_model/dummy_model.py').output
 
     consume_task = dummy_training_with_artifact_op(
         text="bla",
