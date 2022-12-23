@@ -1,21 +1,20 @@
-import yaml
-
 from kfp.v2 import compiler
 from google.cloud import aiplatform
 
-from mlops_package_example.components.register_asset import register_asset
-from mlops_package_example.pipelines.example_pipeline_with_artifact import pipeline_hello_world_with_artifact
+from example_of_a_python_package_outside_of_this_repo.components.register_asset import register_asset
+from example_of_a_python_package_outside_of_this_repo.pipelines.example_pipeline_with_artifact import get_pipeline
 
-model_config = yaml.safe_load(open('my_model/config.yaml'))
 
 if __name__ == "__main__":
     # execute only if run as a script
     compiler.Compiler().compile(
-        pipeline_func=pipeline_hello_world_with_artifact,
+        pipeline_func=get_pipeline(),
         package_path='../hello_world_pipeline.json')
 
-    file_uri = register_asset(file_name="my_model/model.py")
+    # In a real life scenario this trigger tool would receive as parameter the path to model wrapper file
+    file_uri = register_asset(file_name="my_model/model_wrapper.py")
 
+    # edit the parameters here
     job = aiplatform.PipelineJob(
         project='vertex-ai-test-365213',
         display_name=f"test-pipeline-importer",

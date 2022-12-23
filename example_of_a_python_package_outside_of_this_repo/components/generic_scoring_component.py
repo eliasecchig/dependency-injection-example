@@ -2,7 +2,7 @@ from kfp.v2.components.component_factory import create_component_from_func
 from kfp.v2.dsl import Artifact, Input
 
 
-def dummy_training_with_artifact(text: str, model_module_path: str, model_file: Input[Artifact]) -> str:
+def dummy_scoring_with_artifact(text: str, model_module_path: str, model_file: Input[Artifact]) -> str:
     import importlib.util
 
     # This function would be installed in the container in a real life scenario
@@ -13,11 +13,14 @@ def dummy_training_with_artifact(text: str, model_module_path: str, model_file: 
         exec(module_definition, package.__dict__)
         module_imported = getattr(package, module)
         return module_imported
-
     Model = import_module_from_string(module_path=model_module_path, module_definition=open(model_file.path).read())
-    model = Model()
+    #
+    # Data would be loaded here
+    #
     # Data science specific logic called inside train
-    model.train()
+    model = Model()
+    model.transform()
+    model.predict()
 
     # MLOps shared logic
     print('Doing something else after')
@@ -25,6 +28,6 @@ def dummy_training_with_artifact(text: str, model_module_path: str, model_file: 
     return text
 
 
-dummy_training_with_artifact_op = create_component_from_func(
-    dummy_training_with_artifact
+dummy_scoring_with_artifact_op = create_component_from_func(
+    dummy_scoring_with_artifact
 )
