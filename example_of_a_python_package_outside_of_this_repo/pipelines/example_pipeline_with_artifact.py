@@ -7,7 +7,8 @@ from example_of_a_python_package_outside_of_this_repo.components.generic_scoring
 
 def get_pipeline(
         train_op=dummy_training_with_artifact_op,
-        scoring_op=dummy_scoring_with_artifact_op
+        scoring_op=dummy_scoring_with_artifact_op,
+        base_image='python:3.7'
 ):
     @dsl.pipeline(name='hello-world', description='A simple intro pipeline')
     def pipeline_hello_world(model_file_uri: str):
@@ -25,7 +26,8 @@ def get_pipeline(
             text="bla",
             model_module_path='file.Model',
             model=train_task.outputs["model"],
-            model_file=model_file
+            model_file=model_file,
+            base_image=base_image
         )
 
     return pipeline_hello_world
