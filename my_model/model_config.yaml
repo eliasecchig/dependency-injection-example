@@ -1,0 +1,64 @@
+pipeline_name: dummy_pipeline_name
+pipeline_schedule: 0 0 * * MON
+service_account_name: dummy_sa
+custom_execution_timestamp: "2022-07-07 10:10:10"
+experiment_name: dummy_experiment_name
+
+# if set to 'enabled: true', use custom config (cpu, memory) for the step
+custom_job_config:
+    steps:
+        training:
+            enabled: false
+            memory: 120G
+            cpu: '12'
+        scoring:
+            enabled: false
+            memory: 4G
+            cpu: '8'
+        model_analysis:
+            enabled: false
+            memory: 4G
+            cpu: '1'
+
+input_data:
+    training_split: sql/training_split.sql
+    validation_split: sql/validation_split.sql
+    test_split: sql/test_split.sql
+    #     We use the 10 percent of data for shapley values
+    fraction_data_shapley_values: 0.1
+
+features:
+    id_columns:
+        - taxi_id
+    timestamp_feature: trip_start_timestamp
+    categorical_features:
+        - categ_feature1
+        - day_of_the_week
+    target_features:
+    - tips
+    numeric_features:
+    - fare
+    - tolls
+    - extras
+
+training_params:
+    learning_rate: 0.1
+    random_state: 2
+    early_stopping_rounds: 5
+    n_estimators: 100
+    max_depth: 6
+
+model_analysis_params:
+    metrics:
+        - name: MeanAbsoluteError
+        - name: MeanSquaredError
+    slicing_columns: ['payment_type','trip_seconds']
+
+
+data_validation:
+    raise_error: false
+    enabled: false
+
+
+hypertuning:
+    enabled: false
